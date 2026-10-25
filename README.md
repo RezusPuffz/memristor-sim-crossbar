@@ -1,6 +1,7 @@
 # Subthreshold Differential Memristor Crossbar: Analog Compute-in-Memory MAC
 
-A compute-in-memory (CIM) multiply-accumulate engine built full-custom in **Cadence Virtuoso on gpdk045 (45 nm)**. Weights are stored as **differential memristor pairs (G⁺ − G⁻)**, inputs are wordline voltages, and the dot product appears as a bitline current read by a **nanoamp-level (subthreshold) virtual-ground readout** that I designed, laid out, and verified down to post-layout parasitic extraction.
+A full-custom, 45nm analog compute-in-memory (CIM) engine designed and verified in Cadence Virtuoso. By storing neural network weights as differential memristor pairs, the circuit performs hardware-level multiply-accumulate (MAC) operations using physics. The input voltages on the wordlines generate a dot-product current down the bitlines. To safely capture these ultra-low signals, I designed and laid out a custom subthreshold, virtual-ground readout circuit, validating the entire system through post-layout parasitic extraction.
+
 
 > Multiplication by Ohm's law, addition by Kirchhoff's current law, no data movement.
 

@@ -13,32 +13,29 @@ A full-custom, 45nm analog compute-in-memory (CIM) engine designed and verified 
 ---
 
 ## What it does
+What it does
+The array does a multiply-and-add in one step, using only physics:
 
-Each memristor conducts I = G · (V_WL − V_BL). With the bitline pinned at a virtual ground, every cell on a bitline sees exactly its own input voltage, and the bitline current is a dot product:
+Multiply (Ohm's law). Each input is a voltage on a wordline. Each memristor's conductance G is a stored weight. The current through a cell is input × G.
+Add (Kirchhoff's law). All cells on a bitline share one wire, so their currents add up on their own.
+Read without disturbing. The readout holds each bitline at 300 mV while copying its current out, so every cell sees exactly its input.
+Signed weights. A conductance can't be negative, so each weight is a pair: G⁺ on one bitline, G⁻ on its partner. A current mirror subtracts them, giving w = G⁺ − G⁻.
+Each column outputs Σ (input × weight): one dot product, the core operation of a neural-network layer.
 
-```
-I_BL = Σ_i  G_i · V_in,i
-```
+How the crossbar computes
 
-Signed weights come from pairs: each weight is a G⁺ cell on one bitline and a G⁻ cell on its partner, and a current mirror subtracts them:
+**The math.** One bitline adds up its cells, and each column subtracts its pair of bitlines:
 
-```
-I_out = I(BL⁺) − I(BL⁻) = Σ_i (G⁺_i − G⁻_i) · V_in,i
-```
+$$
+I_{BL} = \sum_i G_i \, V_i
+$$
 
-```
- WL1 ──┬─[G⁺₁₁]──────┬─[G⁻₁₁]─── ...
-       │             │
- WL2 ──┼─[G⁺₂₁]──────┼─[G⁻₂₁]─── ...
-       │             │
-      BL⁺           BL⁻
-       │             │
-  ┌────┴────┐   ┌────┴────┐
-  │readout4 │   │readout4 │   virtual ground @ 300 mV, copies I_BL
-  └────┬────┘   └────┬────┘
-       └──── PMOS ───┘          cascode mirror subtracts
-             sum = I(BL⁺) − I(BL⁻)          (colout3)
-```
+$$
+I_{out} = I_{BL^+} - I_{BL^-} = \sum_i \left( G_i^{+} - G_i^{-} \right) V_i = \sum_i w_i \, V_i
+$$
+
+where $V_i$ is the voltage on wordline $i$ and $w_i = G_i^{+} - G_i^{-}$ is the signed weight.
+,,,
 
 ## Architecture
 
@@ -145,9 +142,8 @@ Full story, including every bug LVS caught: [docs/design_log.md](docs/design_log
 - Biases (iref, vref, vcas) and wordline drivers are external/ideal.
 - Slow by design: ms-scale settling at nA currents, roughly hundreds of inferences per second. This is a µW-class demonstration, not a throughput claim.
 
-## Roadmap
-
-- [x] Python netlist generator + golden model (weight matrix in, Spectre netlist out, automatic pass/fail)
+## Next steps
+  The following are:[] 
 - [ ] 9×3 differential crossbar (54 memristors) classifying 3×3-pixel images (X, +, O)
 - [ ] Tileable column cell and multi-column readout macro layout
 - [ ] On-chip bias generation (remove external references)

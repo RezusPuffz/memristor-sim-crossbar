@@ -32,7 +32,9 @@ The array does a multiply-and-add in one step, in the analog domain:
 
 Each column outputs Σ (input × weight): one dot product, the core operation of a neural-network layer.
 
-![How the crossbar computes](images/crossbar_diagram.svg)
+![2×2 array testbench schematic](docs/images/tb_array2x2_v4_schematic.png)
+
+*The 2×2 testbench in Virtuoso: two wordline inputs, eight VTEAM memristors forming four G⁺/G⁻ weight pairs, and one `colout3` readout per column.*
 
 **The math.** One bitline adds up its cells, and each column subtracts its pair of bitlines:
 

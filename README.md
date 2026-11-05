@@ -50,7 +50,7 @@ where $V_i = V_{WL,i} - V_{ref}$ is the input on wordline $i$ (the cell voltage,
 
 ## Architecture
 
-| Cell | What it is | Key details |
+| Cell | What it is | Details |
 |---|---|---|
 | `ota3` | Two-stage Miller OTA | PMOS input pair 8u/4u, NMOS load 8u/4u, 2nd stage 40u/2u; 2 pF MIM Miller cap (54 units); ~20 nA tail |
 | `readout4` | Bitline clamp + current copier | OTA holds BL at `ref` (300 mV) by driving an NMOS cascode mirror (8u/4u + 4u/2u cascode); a **MOS resistor** (replica-biased, ≈9 MΩ) damps the bitline node |

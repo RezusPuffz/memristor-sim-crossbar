@@ -159,14 +159,14 @@ Settling times are read from the plots by eye, not measured to a formal toleranc
 Full story, including every bug LVS caught: [docs/design_log.md](docs/design_log.md).
 
 - **Why a virtual ground:** if the bitline floats it rises with current, every cell's voltage shrinks, and the multiply goes nonlinear. The readout exists to pin the bitline while measuring the current into it.
-- **An ideal resistor isn't buildable, and a MOS one is better:** a 10 MΩ poly resistor would need ~4,900 µm², so the damper became a replica-biased MOS transistor. In subthreshold the OTA's $g_m \propto I/U_T$ while the MOS resistor's $R \propto U_T/I$, and both currents come from the same reference, so $g_m R$, which sets the damping, is temperature-independent to first order. Over 0–85 °C, $g_m R$ drifts −8%, against −24% for a fixed resistor.
+- **An ideal resistor isn't buildable, and a MOS one is better:** for a 10 MΩ poly resistor, we would need ~4,900 µm², so the damper became a replica-biased MOS transistor. In subthreshold the OTA's $g_m \propto I/U_T$ while the MOS resistor's $R \propto U_T/I$, and both currents come from the same reference, so $g_m R$, which sets the damping, is temperature-independent to first order. Over 0–85 °C, $g_m R$ drifts −8%, against −24% for a fixed resistor.
 - **Subthreshold sizing:** in this kit, current scales almost linearly with W but only as $L^{-0.4}$ (reverse short-channel effect), so width is the reliable sizing knob.
 - **DRC passes wrong circuits:** every connectivity bug I hit (a floating n-well, a split diff-pair finger, a same-layer crossing that shorted the OTA gate to ground) was DRC-clean. LVS caught all of them.
 
 ## Limitations
 
-- **Memristors are behavioural** (VTEAM Verilog-A): no variability, no read nonlinearity, no retention, weights fixed by initial state. gpdk045 has no RRAM layers, so only the CMOS periphery is laid out. In a real process the cells sit in the back end, above the wordline/bitline crossings.
-- **Low phase margin under heavy load:** the hard transient case (10 pF / 5 MΩ bitline, 10 nA step) overshoots ~90% on the output current and rings for ~10 cycles. stb gives a 20° phase margin at nominal conditions, well below the usual 45–60° target. It settles, but Monte Carlo and process corners have not been checked for this case, so stability across corners is not demonstrated.
+- **Memristors are behavioural** (VTEAM Verilog-A): Memristors have no variability, no read nonlinearity, no retention and the weights are fixed by the initial state. gpdk045 has no RRAM layers, so only the CMOS periphery is laid out. During the real process the cells sit in the back end, above the wordline/bitline crossings.
+- **Low phase margin under heavy load:** the hard transient case (10 pF / 5 MΩ bitline, 10 nA step) overshoots ~90% on the output current and rings for ~10 cycles. stb gives a 20° phase margin at nominal conditions, which is below the usual 45–60° target. The circuit settles, but Monte Carlo and process corners have not been checked for this case, so stability across corners is not demonstrated.
 - Biases (iref, vref, vcas), wordline drivers and the output termination are ideal: in the testbench an ideal 500 mV source holds each `sum` node, and the output compliance range has not been characterised yet.
 - Slow by design: ms-scale settling at nA currents, roughly hundreds of inferences per second. This is a µW-class demonstration, not a throughput claim.
 

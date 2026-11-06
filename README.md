@@ -220,6 +220,17 @@ python3 scripts/gen_array.py --weights "2,-2;-1,3" --vin "0,0.1" \
 scripts/run_regression.sh
 ```
 
+`run_regression.sh` needs `spectre` on the PATH and a Cadence license (`CDS_LIC_FILE`). Run on Spectre 25.1, it rebuilds the 2×2 array from the repo alone (generated netlist, extracted `colout3`, VTEAM model) and reproduces the post-layout Virtuoso results to within 1 pA:
+
+```
+$ bash scripts/run_regression.sh
+vin=[0.0, 0.1] out1: sim   -5.029 nA  ideal   -5.000 nA  error   -28.7 pA  PASS
+vin=[0.0, 0.1] out2: sim  +14.932 nA  ideal  +15.000 nA  error   -68.5 pA  PASS
+...
+vin=[0.2, 0.1] out2: sim   -5.240 nA  ideal   -5.000 nA  error  -239.7 pA  PASS
+REGRESSION PASS
+```
+
 Cadence views and gpdk045 model files are not included (licensed). The netlists, model and scripts reproduce the results with Spectre and any gpdk045 install.
 
 ## References

@@ -72,6 +72,14 @@ Biasing: vdd = 1 V, vref = 300 mV, vcas = 400 mV, iref = 20 nA into a diode PMOS
 | `colout3` | [schematic](docs/images/colout3_schematic.png) | [layout](docs/images/colout3_layout.png) · [PMOS mirror detail](docs/images/colout3_layout_zoom_pmos_mirror.png) |
 | 2×2 array testbench | [schematic](docs/images/tb_array2x2_v4_schematic.png) | n/a (behavioural memristors) |
 
+<p align="center">
+  <img src="docs/images/ota3_schematic.png" width="32%" alt="ota3 schematic">
+  <img src="docs/images/readout4_schematic.png" width="32%" alt="readout4 schematic">
+  <img src="docs/images/colout3_schematic.png" width="32%" alt="colout3 schematic">
+</p>
+
+*Left to right: `ota3` (two-stage Miller OTA), `readout4` (bitline clamp and current copier), `colout3` (two `readout4` and the PMOS subtracting mirror). Click any image for full size.*
+
 ## Verification
 
 ### Post-layout DC accuracy: 2×2 differential array

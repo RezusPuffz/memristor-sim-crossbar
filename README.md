@@ -234,4 +234,4 @@ MIT, see [LICENSE](LICENSE).
 
 ## Author
 
-Marc Arnault, undergraduate, Chapman University.
+Marc Arnault, undergraduate, Chapman University · [LinkedIn](https://www.linkedin.com/in/marc-arnault-45b765303)

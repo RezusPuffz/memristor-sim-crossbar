@@ -5,6 +5,7 @@
 # Usage: scripts/run_regression.sh   (from the repo root)
 set -e
 cd "$(dirname "$0")/.."
+command -v spectre >/dev/null || { echo "spectre not found: run this on a machine with Cadence Spectre and gpdk045 installed"; exit 1; }
 mkdir -p build
 
 WEIGHTS="2,-2;-1,3"           # the tb_array2x2_v4 array

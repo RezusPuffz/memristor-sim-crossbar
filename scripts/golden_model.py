@@ -31,7 +31,8 @@ def read_csv(path, rows, cols):
 
 def read_psfascii(path, vin, cols):
     """One DC operating point from 'spectre -format psfascii' (inputs from --vin)."""
-    vals = dict(re.findall(r'"([^"]+)"\s+([-+0-9.eE]+)', open(path).read()))
+    # value lines look like: "VOUT1:p" "I" -5.0285e-09 PROP(...)
+    vals = dict(re.findall(r'"([^"]+)"\s+(?:"[^"]*"\s+)?([-+0-9.eE]+)', open(path).read()))
     out = [float(vals[f"VOUT{c + 1}:p"]) for c in range(cols)]
     return [(vin, out)]
 

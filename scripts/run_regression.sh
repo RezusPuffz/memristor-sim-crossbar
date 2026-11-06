@@ -17,7 +17,8 @@ for vin in "${PATTERNS[@]}"; do
     python3 scripts/gen_array.py --weights "$WEIGHTS" --vin "$vin" \
         --colout3 "$PWD/netlists/colout3_extracted.scs" \
         --vteam "$PWD/veriloga/vteam.va" > "build/tb_$tag.scs"
-    spectre -format psfascii -raw "build/raw_$tag" "build/tb_$tag.scs" > "build/log_$tag.txt"
+    spectre -format psfascii -raw "build/raw_$tag" "build/tb_$tag.scs" > "build/log_$tag.txt" 2>&1 \
+        || { tail -20 "build/log_$tag.txt"; exit 1; }
     python3 scripts/golden_model.py --weights "$WEIGHTS" --vin "$vin" \
         --check "build/raw_$tag/dcop.dc" || fail=1
 done

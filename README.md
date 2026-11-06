@@ -6,7 +6,7 @@ A full-custom, 45 nm analog compute-in-memory (CIM) engine designed and verified
 
 **Status:** readout periphery fully laid out, **DRC clean, LVS matched, PEX extracted**, and the 2×2 differential array re-verified post-layout to within **11 pA** of schematic. Next: 9×3 image-classifier demo (see [Next steps](#next-steps)).
 
-![colout3 layout](images/colout3_layout_clean.png)
+![colout3 layout](docs/images/colout3_layout_clean.png)
 
 ### Key results
 
@@ -97,7 +97,7 @@ DC sweep of vin1 with vin2 = 100 mV, `colout3` as its Quantus-extracted view. We
 
 Worst schematic-to-layout difference: **11 pA**. Supply sensitivity (0.9–1.1 V): 0.157 / 0.191 nA, unchanged from schematic.
 
-![Post-layout DC sweep](images/array_postlayout_dc_sweep.png)
+![Post-layout DC sweep](docs/images/array_postlayout_dc_sweep.png)
 
 The ideal column comes from `scripts/golden_model.py`, which computes Σ V·(G⁺ − G⁻) for any weight matrix and checks simulated outputs against it.
 
@@ -193,8 +193,7 @@ I'm working toward these improvements:
 ```
 .
 ├── README.md
-├── images/          headline layout and simulation plots
-├── docs/            design log, schematics, layouts, DRC/LVS, transients
+├── docs/            design log and all images (schematics, layouts, DRC/LVS, plots)
 ├── scripts/
 │   ├── crossbar.py        weight ↔ memristor-state mapping, ideal outputs
 │   ├── gen_array.py       weight matrix → Spectre netlist (any N×M)
